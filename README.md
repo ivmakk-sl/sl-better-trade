@@ -40,7 +40,7 @@ The game already counts these numbers to decide a deal, but it shows only icons 
 
 The mod does not change a trade: the values, the deal line, the deal, and the items that the drone takes stay the same as without the mod. The save keeps only the Trading tag of each storage (see [Uninstall](#uninstall)).
 
-Nexus page: not yet published.
+Nexus page: https://www.nexusmods.com/survivallog/mods/26
 
 ## Compatibility
 

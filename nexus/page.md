@@ -4,7 +4,7 @@ Tracks the mod's Nexus page details.
 
 - Mod name: Better Trade
 - Game domain: `survivallog` (add-mod page: https://www.nexusmods.com/survivallog/mods/add)
-- Mod id and URL: not created yet.
+- Mod id and URL: `26`, https://www.nexusmods.com/survivallog/mods/26. Published 2026-10-06.
 - Category: Miscellaneous. It is the only category the game offers on Nexus.
 - Version: `1.0.0`
 - File name under Manage Files: `Better Trade 1.0.0`, the zip `BetterTrade-1.0.0.zip`, marked as the main file. It is the same zip as the GitHub Release asset.
