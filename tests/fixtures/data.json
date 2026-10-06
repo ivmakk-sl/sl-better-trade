@@ -1,0 +1,30 @@
+{
+  "mode": "trade",
+  "words": { "wants": "Wants", "halfValue": "Half value", "dealLine": "Deal line" },
+  "items": {
+    "101": { "n": 84, "cls": "low", "kind": "", "dim": false, "o": 0, "tip": { "tv": 28, "count": 1, "uses": 6, "f": [{ "x": "×½", "why": "half" }] }, "demands": [], "info": "L101", "cid": 0, "exp": 0 },
+    "102": { "n": 90, "cls": "wanted", "kind": "", "dim": false, "o": 0, "tip": { "tv": 56, "count": 1, "uses": 1, "f": [{ "x": "×1.6", "why": "wanted" }] }, "demands": [], "info": "2400", "cid": 0, "exp": 0 },
+    "103": { "n": 60, "cls": "full", "kind": "", "dim": false, "o": 0, "tip": { "tv": 30, "count": 2, "uses": 1, "f": [] }, "demands": [], "info": "", "cid": 0, "exp": 0 }
+  },
+  "shelf": { "5001": 91, "5002": 10 },
+  "bar": { "offer": 56, "goods": 72, "dealLine": 52, "picked": true },
+  "header": {
+    "wants": [{ "name": "Medicine", "x": "×1.6" }],
+    "half": [{ "name": "Food", "x": "×½" }]
+  },
+  "medicine": null,
+  "bars": false,
+  "requests": {
+    "1_5": [{ "need": 3, "paid": 1, "count": "1/3", "done": false, "item": 20372 }, { "need": 2, "paid": 2, "count": "2/2", "done": true, "item": 0 }]
+  },
+  "info": {
+    "5001": { "sub": "Staple \"Rice\"", "uses": 7, "stats": [7.5, -4, 0, 0, 0], "read": "", "crop": "" },
+    "L101": { "sub": "", "uses": 10, "stats": [12.5, 0, 0, 0, 0], "read": "", "crop": "" }
+  },
+  "objects": {
+    "20372": { "id": 20372, "n": "Electrical Wire", "r": 0, "max": 3, "qty": 0, "tv": 12, "demand": false, "category": "Material", "shelfLife": "", "des": "A coil of wire.", "icon": "wire.png" }
+  },
+  "rewards": {
+    "1_5": [{ "id": 20372, "count": 2 }]
+  }
+}

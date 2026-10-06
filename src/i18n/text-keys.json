@@ -1,0 +1,15 @@
+{
+  "wants": "SR_Web_TradeUI_WantLabel",
+  "viewDefault": "SR_Web_EventChoice_DefaultTag",
+  "tradeValue": "SR_Web_TradeUI_CampUnitMat",
+  "satiety": "GameKey_1",
+  "morale": "GameKey_2",
+  "stamina": "GameKey_3",
+  "health": "GameKey_4",
+  "life": "GameKey_5",
+  "seed": "ItemType10",
+  "material": "ItemType9",
+  "medicine": "SR_Web_TradeUI_Cat_2",
+  "fuel": "ItemType13",
+  "rewards": "AidPlatform_RewardLabel"
+}

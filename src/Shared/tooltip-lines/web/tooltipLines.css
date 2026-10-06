@@ -1,0 +1,20 @@
+/* Library copy of shared/tooltip-lines 1.1.1. Do not edit: see src/Shared/tooltip-lines/VERSION. */
+/* One tooltip block of a mod: the lines that the mod adds below the lines of the game, drawn as one group. PFX is the
+   prefix of the mod; tooltipLinesCss(prefix) replaces it. The library holds the layout only. The mod sets these
+   variables in its tokens.css:
+     --PFX-tip-fg    the color of a line
+     --PFX-tip-rule  the color of the rule above the block, which parts it from the lines above
+     --PFX-tip-size  the font size of a line
+     --PFX-tip-gap   the gap between two lines of the block
+   The color of one line of the mod (.PFX-tip-line:last-child and the like) stays with the mod. */
+
+.PFX-tip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--PFX-tip-gap);
+  margin-top: 2px;
+  padding-top: 5px;
+  border-top: 1px solid var(--PFX-tip-rule);
+  font-size: var(--PFX-tip-size);
+  color: var(--PFX-tip-fg);
+}

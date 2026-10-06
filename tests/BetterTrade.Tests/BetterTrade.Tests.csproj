@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\Values\TradeMath.cs" Link="TradeMath.cs" />
+    <Compile Include="..\..\src\Values\SatietyMath.cs" Link="SatietyMath.cs" />
+    <Compile Include="..\..\src\Values\TradeData.cs" Link="TradeData.cs" />
+    <Compile Include="..\..\src\Values\RequestData.cs" Link="RequestData.cs" />
+    <Compile Include="..\..\src\Values\DispatchCount.cs" Link="DispatchCount.cs" />
+    <Compile Include="..\..\src\Values\RewardData.cs" Link="RewardData.cs" />
+    <Compile Include="..\..\src\Web\PageJson.cs" Link="PageJson.cs" />
+    <Compile Include="..\..\src\Shared\json\cs\*.cs" Link="Shared\json\%(Filename)%(Extension)" />
+    <Compile Include="..\..\src\Shared\mod-tags\cs\*.cs" Link="Shared\mod-tags\%(Filename)%(Extension)" />
+    <Compile Include="..\..\src\Shared\i18n\cs\*.cs" Link="Shared\i18n\%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\..\src\i18n\*.json" LogicalName="BetterTrade.i18n.%(Filename)%(Extension)" />
+    <Compile Include="..\..\src\Web\PushSchedule.cs" Link="PushSchedule.cs" />
+    <Compile Include="..\..\src\TradingTag\TradingTagLogic.cs" Link="TradingTagLogic.cs" />
+    <None Include="..\fixtures\*.json" Link="fixtures\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageReference Include="xunit.v3" Version="4.0.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,57 @@
+# Copilot code-review instructions
+
+This repo is a BepInEx 6 (IL2CPP) Harmony mod for *Survival Log*. Plugins derive from `BasePlugin` and call the game through Il2CppInterop proxy assemblies. Review with these traps in mind; a general C# review misses most of them.
+
+## IL2CPP Harmony traps
+
+- **Getter/setter patches often never fire.** il2cpp inlines trivial accessors, so a `MethodType.Getter`/`.Setter` patch silently does nothing. Flag a new getter patch used as the only mechanism. The reliable change is mutating the backing field at a load hook.
+- **Inlined methods.** il2cpp also inlines some private methods into their only caller, and a patch of such a method attaches with no error but never runs. A method with no caller in the native code of the game is inlined or called virtually (`ItemManager.SetItemCount`, `WebUILayer.ShowPage`). Flag a new patch target that is not shown to run in the game.
+- **Copied formulas.** The helpers of `TradeBalanceCalculator.Evaluate` are inlined, so `src/Values/TradeMath.cs` copies the formulas. `StateReader` checks the copy against the game's `BarNet` on each read of a trade and logs a warning when they differ. Flag a change of `TradeMath` with no matching test, and a removal of the self-check.
+- **No `is`/`as` across the interop boundary.** Flag `is`, `as`, or a direct cast on a game type. The correct form is `x.TryCast<T>()` then a null check.
+- **No `foreach` over game collections.** The interop enumerator lacks the pattern. Expect `GetEnumerator()` / `MoveNext()` / `Current`, or a count plus an indexer.
+- **Never read an `Il2CppSystem.ValueTuple<...>` result of a game method,** direct or as a list element. The interop layer reads the fields wrongly and gives garbage with no error. Expect a method that returns a class, a dictionary, or an `Il2CppStructArray`, or the value calculated in the mod.
+- **A patch of a method that gives a value declares `__result`.** A Prefix that returns false and leaves `__result` unset gives the default value to the caller. This mod has two Prefixes that return false: `WebOnHandleMessageEmitted` only for a message with the prefix of this mod (`slmod|bettertrade|`), and `HeadBarIcon` only for the icon key of the trading tag, with `__result` set to the sprite of the mod. Each other input goes through to the game. Flag a Prefix that skips the game's method for any other input.
+- **Guard game lookups.** Singletons, config lookups, and the web view return null often. Flag an unchecked dereference inside a patch.
+- **A patch must not break the game.** A patch body sits in a try/catch that logs each distinct error once and leaves the game's result unchanged, so the window shows as without the mod.
+- **Each patch attaches on its own.** `Plugin.Load` attaches each patch class with `CreateClassProcessor(type).Patch()` in its own try/catch, so a target missing after a game update turns off only its own part. Flag a `PatchAll()`.
+- **Window states come from `GetState`, data states from `GetData`.** `ReduxUISystem.GetState<T>` reads only the window states (`State_Web_*`) and gives null for a data state. Read a `State_Data_*` state with `ReduxUISystem.GetData<T>`. Flag `GetState` of a data state.
+- **Read the home items from the bag mirror.** Never call `ItemManager.GetAllAvailableItems`: that call walks the home scope and makes each later item move reach about fifty item managers, which the player sees as a delay of seconds on a drag. Flag that call, and any other walk of the home scope through `ItemManager`.
+
+## Web UI
+
+- The game UI is web pages in one web view: a root page hosts each window as an iframe. New DOM comes from a script run in the root page through `ExecuteJavaScript`, which reaches a window through `iframe.contentWindow`.
+- A reopened window is a new iframe. Flag a page hook that installs once and assumes it stays.
+- A page hook wraps the game's function and calls the original first. Flag a hook that replaces the original, or page code with no try/catch around the added DOM work.
+- Text that goes into a script string must have no quote or backslash, or must be escaped (`JsonText.Str` or `AppendStr` of the JSON library in `src/Shared/json/`).
+- **Send once.** The page script (`src/Web/page/*.ts`, TypeScript built by Vite into one file that the plugin embeds) goes to the root page only when the root page answers that it has no script. The data goes only while the trade window is open, and only when it changed. The game-free `src/Web/PushSchedule.cs` decides each send, sends at most one call for each frame, and is the only retry. `ValuesOnRefresh` only sets the request; `PageTick` reads the state once in the next frame. Flag a send of the script or the data on each refresh or on a hover, a game read in the refresh Postfix, and a retry loop (`setTimeout`) in the page script.
+- **The data holds no value of the game clock.** A value that changes each game minute would make each frame a new send. Flag such a field in `PageJson`.
+- **The tooltip blocks go through the tooltip lines library.** `tooltip.ts` registers its blocks with `addTipLines` (`src/Shared/tooltip-lines/`) at ranks 10 and 30, so the block of a mod that shows how much the character holds comes after them. The library owns the wrap of the tooltip part of each web page, the place and the order of the blocks of every mod, and the correction for a tooltip that grew past the window. Flag a wrap of a tooltip function of the game in the mod, and a line that is appended straight to a tooltip node.
+- **Styles live in CSS files.** `src/Web/tokens.css` holds the `--bt-` tokens and `src/Web/page.css` the rules; stylelint checks that a rule uses a token, not a raw color. The script sets classes (`bt-*`). Flag a raw color or an inline style in the page script.
+- **A missing page part logs once.** When a node of the trade window that the mod needs is not there, the page script leaves that part as the game shows it, keeps the other parts working, and reports the missing part once. Flag page code that throws or stops all parts for one missing node.
+
+## Structure and tests
+
+- **Feature folders.** `src/Plugin.cs` holds only the plugin: the config, the patch list, and `Load`. `src/Values/` reads the trade window state and calculates the numbers of each mode. `src/TradingTag/` holds the trading tag and the trade storage tabs. `src/Detail/` opens the item detail popup. `src/Web/` holds the page script, its CSS, and the C# that sends it.
+- **Pure logic is separated and tested.** Logic that does not need the running game (the trade formulas, the satiety and supply numbers, the request demands, the rewards, the drop counts of Deliver Request, the trading tag rule, the send schedule, the page JSON) lives in its own file with no BepInEx or Il2Cpp reference, unit-tested under `tests/BetterTrade.Tests`. Flag new pure logic in a patch class, and new pure logic with no test. The page script has Vitest tests against the game's own trade window page under `tests/page/`.
+- **The per-frame tick is guarded.** `PageTick` (a Postfix of `WebUILayer.OnUpdate`) runs inside one try/catch and returns at once while nothing is pending, and each distinct warning logs once. Flag work in it that runs on each frame while no send is pending.
+- `netstandard2.1` has no JSON library and the game's Newtonsoft stub cannot be used, so the JSON library in `src/Shared/json/` (`JsonText`, `FlatJson`) is on purpose. Do not suggest `System.Text.Json`.
+- **`src/Shared/` is a library copy.** Each folder `src/Shared/<lib>/` is a copy of a shared library of the modding workspace, at the version that its `VERSION` file names, with a hash of each file and a header line in each `.cs`, `.ts`, and `.css` file. It is never edited in this repo: a fix goes into the shared library and comes back with a sync, which also writes `VERSION`. Flag a change of a file under `src/Shared/` with no change of its `VERSION` file.
+- **Mod texts come from the i18n files.** Each text that the mod shows is in `src/i18n/en.json` (each text, the last fallback) and `zh.json`, and the code asks for it by name through the i18n library (`src/Shared/i18n/`). Only `src/ModTexts.cs` reads `LanguageType`. Flag a check of the display language anywhere else, an English or Chinese text in C# or page code, and a page fallback text.
+- **Patches** prefer a postfix, and tie the `Harmony` instance to the plugin GUID.
+
+## Game rules the mod keeps
+
+- **Display only for the trade.** The mod must not change a trade value, the deal line, the deal, the items that the drone takes or brings back, the satiety of a donation, the progress of a request or a supply, or the place of an item in a storage. The numbers come from the same counts that the game uses. Flag any write of trade state.
+- **Deliver Request asks the game.** The number and the dim of a cell come from the game's own drop check (`Reducer_Web_TradeUI.CollectDispatchTake`) with the drone cargo counted, on a copy of the give list. Flag a rule of the mod's own for which item a delivery request takes, and a call that passes the game's own give list.
+- **The value view moves nothing.** It changes only the places that the page shows. Flag a change of an item's place in the storage or the save.
+- **The trading tag does not reach the game's tag logic.** The three `TagMatch` patches give the game each rule without the mod tags (`ModTagRule.ForGame` of the mod tags library), so the robot rules stay the same. They run before the patches of Project Cook (`HarmonyBefore`), and the Finalizer of `TryGetPutRank` runs after them (`HarmonyAfter`) and puts back the original list. Flag a match path of the game that skips these patches, and a change of the order attributes.
+- **The tag id comes from the mod tags library.** When the game takes the id of the trading tag for a tag of its own, the mod adds no tag row and turns off the trade storages with one warning. Flag a hard-coded tag id.
+- **The only save data is the tag id.** The save keeps the id of the trading tag in the tag rule of each storage, and the game drops it at load without the mod. Flag any other write to the save or to a game file.
+
+## Release and config hygiene
+
+- **Config entries.** `General` / `Verbose` (default `false`), and in `Features`: `TradeStorages`, `DeliveryRequestList`, and `DeliveryRequestRewards` (each default `true`, read once at load). Diagnostic tracing goes on `LogDebug` behind `Verbose`; `LogInfo` stays quiet apart from the load line. Flag a new entry with no `CONFIG.md` row.
+- **The plugin GUID never changes.** It is `com.ivmakk.survivallog.bettertrade`, the BepInEx identity and the config file name. Flag any edit to it.
+- **The version is in two places that must agree:** `<Version>` in the csproj and the `BepInPlugin` attribute.
+- **No committed build output.** Flag `bin/`, `obj/`, `dist/`, `node_modules/`, or a game DLL in the diff. The build runs Vite, so it needs `npm ci` at the mod root; a change of the npm packages commits `package-lock.json`. Game `<Reference>` entries keep `<Private>false</Private>`.
+- **Changelog matches the change.** A player-visible change adds an `[Unreleased]` entry to `CHANGELOG.md` in player-facing wording. An internal-only refactor gets none.

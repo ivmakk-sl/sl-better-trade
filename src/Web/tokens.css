@@ -1,0 +1,46 @@
+/* The colors and shared looks of Better Trade, once. The page script puts this file before page.css in the
+   TradeUI frame. A rule uses a token, never a raw color (stylelint checks it); an opacity stays at the rule,
+   through the relative color syntax: rgb(from var(--bt-gold) r g b / 50%). */
+:root {
+  --bt-white: #fff;
+  --bt-black: #000;
+  /* Full value, and the number of a satiety mode: the warm gold of the cooking window, which the trade window does
+     not define, so the food sort of Project Cook and the numbers of Better Trade have one gold. */
+  --bt-gold: #fbb034;
+  /* Less than full value: half value, or the sell rate of the item. Not the red of a refused item. */
+  --bt-coral: #ff8a65;
+  /* Wanted, and a done demand. */
+  --bt-green: #66bb6a;
+
+  /* The request demand bars of Deliver Request: the game's fill of an open request demand and its accent of the
+     drone cargo preview (both of TradeUI.html), muted under the text. */
+  --bt-bar-open: #e2c422;
+  --bt-bar-preview: #ffc107;
+
+  /* The medicine total of the drone in Deliver Supplies. */
+  --bt-med: #ef9a9a;
+
+  /* The background of a number badge on a cell, and the shadow of its text. */
+  --bt-badge-bg: rgb(from var(--bt-black) r g b / 72%);
+  --bt-text-shadow: 1px 1px 2px var(--bt-black);
+
+  /* The variables of the dropdown library (prefix bt-view). The open list is solid, so its words read well over the
+     items. */
+  --bt-menu-bg: #1d1e22;
+  --bt-view-fg: var(--bt-white);
+  --bt-view-accent: var(--bt-gold);
+  --bt-view-menu-bg: var(--bt-menu-bg);
+
+  /* The variables of the number badge library (prefix bt). The badge stays below the game's refused tag of a cell
+     (z-index 6). */
+  --bt-badge-fg: var(--bt-white);
+  --bt-badge-shadow: var(--bt-text-shadow);
+  --bt-badge-z: 5;
+
+  /* The variables of the tooltip lines library (prefix bt): the block of the mod in the item tooltip, and the rule
+     above it that parts it from the lines of the game. */
+  --bt-tip-fg: rgb(from var(--bt-white) r g b / 85%);
+  --bt-tip-rule: rgb(from var(--bt-white) r g b / 12%);
+  --bt-tip-size: 12px;
+  --bt-tip-gap: 2px;
+}

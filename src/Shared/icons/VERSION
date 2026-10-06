@@ -1,0 +1,8 @@
+# Library copy of shared/icons. Do not edit it: edit shared/icons/, then run tools/shared-sync.ps1 -Mod BetterTrade -Lib icons.
+name=icons
+version=1.1.0
+sha256 sprite/sources.txt a322997a21589f921c1288f2d971c97d16cee25963da7238af64f833a81f781c
+sha256 sprite/trade.alpha 9ebc5613fcb5c5d4f51c9c62901ebf0143f48ee1e6b0b71f331a425f4952169e
+sha256 web/default.svg 7573f8ca25c743d66b56f9f9527335374d67cd5363d8a8923f9456594b4f6b89
+sha256 web/sort.svg e0d18466aeb68742b0084d4930b35d22fcd78990187b6ef9a058e8428126556e
+sha256 web/trade.svg b2ecb5f6b248f9146e33d21530bf0c7ec3e579b5aa37b7628f9fc69f3dcf40be

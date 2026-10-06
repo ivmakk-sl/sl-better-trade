@@ -1,0 +1,348 @@
+/* The rules of the page script in the TradeUI frame. The script sets class names; these rules give the look. */
+
+/* The number of a cell. The number badge library draws it at the top left (the count, the uses, the story mark, and
+   the Her Dishes heart take the other corners), below the game's refused tag (--bt-badge-z in tokens.css). These are
+   the colors of its tones. */
+.bt-badge.bt-full {
+  color: var(--bt-gold);
+}
+
+.bt-badge.bt-low {
+  color: var(--bt-coral);
+}
+
+.bt-badge.bt-wanted {
+  color: var(--bt-green);
+}
+
+/* The bar numbers (form A): side margins on the game's bar make room for the offer at its left end and the goods at
+   its right end. The numbers sit at the bottom of .foot-main, on the line of the bar. */
+body.bettertrade-bar .foot-main {
+  position: relative;
+}
+
+body.bettertrade-bar .foot-main > .bal-track {
+  margin: 0 46px;
+}
+
+.bt-bar-offer,
+.bt-bar-goods {
+  position: absolute;
+  bottom: 0;
+  height: 15px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.bt-bar-offer {
+  left: 0;
+  width: 40px;
+  text-align: right;
+  color: var(--bt-gold);
+}
+
+.bt-bar-goods {
+  right: 0;
+  width: 40px;
+  text-align: left;
+  color: var(--bt-gold);
+}
+
+/* The words of the bar numbers, above the bar while the pointer is on it. */
+.bt-bar-tip {
+  position: absolute;
+  left: 46px;
+  bottom: 20px;
+  z-index: 9999;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--bt-white);
+  background: var(--bt-badge-bg);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.bt-bar-tip[hidden] {
+  display: none;
+}
+
+/* The header groups of the factors of the trader. The game's "Wants" row is hidden in their place. */
+.cp-row.bt-hide {
+  display: none;
+}
+
+.bt-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 4px;
+}
+
+.bt-chip {
+  margin-left: 4px;
+  padding: 0 5px;
+  border: 1px solid currentcolor;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 15px;
+  white-space: nowrap;
+}
+
+.bt-wants .bt-chip {
+  color: var(--bt-green);
+}
+
+.bt-half .bt-chip {
+  color: var(--bt-coral);
+}
+
+/* The icon of an offered row holds the badge of the value of one unit. The game fades the whole icon box (opacity
+   .6); the fade moves to the image and the border, so the badge shows at full strength and the icon keeps its look. */
+.shelf-icon:has(> .bt-badge) {
+  position: relative;
+  opacity: 1;
+  border-color: rgb(from var(--bt-white) r g b / 13%);
+}
+
+.shelf-icon:has(> .bt-badge) > img {
+  opacity: 0.6;
+}
+
+/* The mod lines of the hover tooltip, below the game's lines. The tooltip lines library draws the block and its rule
+   from the --bt-tip-* variables of tokens.css; only what is of this mod stays here.
+
+   The mod draws two blocks, its item facts and its value line, and they read as one group: only the first of them
+   carries the rule that parts them from the lines of the game. */
+.bt-tip + .bt-tip {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* The value line is gold; the item facts stay in the text color. */
+.bt-tip[data-sl-tip="bettertrade-value"] .bt-tip-line {
+  color: var(--bt-gold);
+}
+
+/* The value view dropdown. The dropdown library draws it (its variables are in tokens.css); these are the colors of
+   its icons: the sort icon and the coin in gold, the Default icon in the text color. */
+.bt-view-ico[data-choice="sort"],
+.bt-view-ico[data-choice="trade"] {
+  color: var(--bt-gold);
+}
+
+/* The request demand bars of the delivery request list. The page code marks the list and
+   each row with data (data-bt-bars); these rules restyle the game's nodes of a request demand into one bar over the
+   full width of the row: the game's fills under the text, the label at the left cut with "...", and the game's "+N"
+   (.pv-inc) and the count of the mod (.bt-count) at the right end. No game node moves. */
+.sup-list[data-bt-bars] {
+  overflow-x: hidden;
+}
+
+.sup-row[data-bt-bars] .sup-dims {
+  align-items: stretch;
+  min-width: 0;
+}
+
+.sup-row[data-bt-bars] .sup-cell {
+  position: relative;
+  height: 17px;
+  min-width: 0;
+  padding: 0 6px;
+  gap: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgb(from var(--bt-white) r g b / 7%);
+  font-size: 10.5px;
+  letter-spacing: 0.2px;
+  text-shadow: 0 1px 1px rgb(from var(--bt-black) r g b / 80%);
+}
+
+.sup-row[data-bt-bars] .sup-track {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+}
+
+.sup-row[data-bt-bars] .sup-fill.cur {
+  background: rgb(from var(--bt-bar-open) r g b / 30%);
+}
+
+.sup-row[data-bt-bars] .sup-fill.cur.is-high {
+  background: rgb(from var(--bt-green) r g b / 32%);
+}
+
+.sup-row[data-bt-bars] .sup-fill.preview {
+  background: rgb(from var(--bt-bar-preview) r g b / 18%);
+  opacity: 1;
+}
+
+.sup-row[data-bt-bars] .sup-fill.preview.reach {
+  background: rgb(from var(--bt-green) r g b / 22%);
+}
+
+.sup-row[data-bt-bars] .sup-dl {
+  position: relative;
+  z-index: 1;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: inherit;
+  color: rgb(from var(--bt-white) r g b / 85%);
+}
+
+.sup-row[data-bt-bars] .pv-inc,
+.bt-count {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: var(--bt-white);
+}
+
+.sup-row[data-bt-bars] .pv-inc {
+  color: var(--bt-bar-preview);
+}
+
+.sup-row[data-bt-bars] .pv-inc + .bt-count {
+  margin-left: 0;
+}
+
+/* The bar of a request demand for one item: the item icon before the label, and the
+   look of a bar that opens the item detail popup on a click. */
+.sup-row[data-bt-bars] .sup-cell[data-interactive] {
+  padding-left: 2px;
+  cursor: pointer;
+}
+
+.sup-row[data-bt-bars] .sup-cell[data-interactive]:hover {
+  background: rgb(from var(--bt-white) r g b / 11%);
+  box-shadow: inset 0 0 0 1px var(--bt-bar-preview);
+}
+
+.bt-dicon {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 13px;
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* The delivery request rewards of a row: a strip under the request demands with a "Rewards"
+   title and a thin rule, then the reward items, 26 px each, that wrap. The title and the rule are gold, and neutral on
+   the selected row, whose gold tint would hide them. A long reward ends in the "+N" tile (.bt-more). */
+.bt-rewards {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.bt-rewards-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  letter-spacing: 0.3px;
+  color: rgb(from var(--bt-bar-preview) r g b / 72%);
+}
+
+.bt-rewards-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: rgb(from var(--bt-bar-preview) r g b / 16%);
+}
+
+.sup-row.on .bt-rewards-title {
+  color: rgb(from var(--bt-white) r g b / 55%);
+}
+
+.sup-row.on .bt-rewards-rule {
+  background: rgb(from var(--bt-white) r g b / 14%);
+}
+
+.bt-rewards-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bt-reward,
+.bt-more {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bt-reward {
+  border: 1px solid rgb(from var(--bt-white) r g b / 30%);
+  background: rgb(from var(--bt-black) r g b / 35%);
+}
+
+.bt-reward-ico {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.bt-more {
+  width: auto;
+  min-width: 26px;
+  padding: 0 5px;
+  border: 1px dashed rgb(from var(--bt-bar-preview) r g b / 45%);
+  background: rgb(from var(--bt-bar-preview) r g b / 6%);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--bt-bar-preview);
+  white-space: nowrap;
+}
+
+.bt-reward:hover,
+.bt-more:hover {
+  box-shadow: 0 0 0 1px var(--bt-bar-preview), 0 0 8px rgb(from var(--bt-bar-preview) r g b / 45%);
+}
+
+.bt-xn {
+  position: absolute;
+  right: -3px;
+  bottom: -4px;
+  padding: 0 2px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 11px;
+  color: var(--bt-white);
+  background: var(--bt-badge-bg);
+  pointer-events: none;
+}
+
+/* The medicine total of the drone in the selected neighbor row. */
+.bt-med {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--bt-med);
+  white-space: nowrap;
+}

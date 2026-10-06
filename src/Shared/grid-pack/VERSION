@@ -1,0 +1,4 @@
+# Library copy of shared/grid-pack. Do not edit it: edit shared/grid-pack/, then run tools/shared-sync.ps1 -Mod BetterTrade -Lib grid-pack.
+name=grid-pack
+version=1.0.0
+sha256 web/gridPack.ts a34cc2c6ae8680858b542b250f3df1c3958993207a02a2ab6d204c04db6d13a6

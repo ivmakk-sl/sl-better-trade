@@ -1,0 +1,5 @@
+# Library copy of shared/number-badge. Do not edit it: edit shared/number-badge/, then run tools/shared-sync.ps1 -Mod BetterTrade -Lib number-badge.
+name=number-badge
+version=1.0.0
+sha256 web/numberBadge.css b0694a53705cac57abcee8227d2ccf0c5a6ef86310d4fc95b5e173e2e9ac673b
+sha256 web/numberBadge.ts 1878155a1d4145df65ea14995dbded22949b4077b8fd1db235f6aac5b2caa1b9

@@ -1,0 +1,1 @@
+Improved Trading UI: see item prices, access to any Trading-tagged storage tabs, clearer Delivery progress and reward previews.

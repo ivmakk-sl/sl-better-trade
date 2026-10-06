@@ -1,0 +1,46 @@
+/* Library copy of shared/number-badge 1.0.0. Do not edit: see src/Shared/number-badge/VERSION. */
+/* The number badge of an item cell. PFX is the prefix of the mod; numberBadgeCss(prefix) replaces it. The mod sets
+   these variables in its tokens.css:
+     --PFX-badge-fg      the color of a number with no tone
+     --PFX-badge-bg      the background of the badge
+     --PFX-badge-shadow  the text shadow of the number
+     --PFX-badge-z       the stack level of the badge in its cell (below or above a mark of the game)
+   The colors of the tones (.PFX-badge.PFX-<tone>) stay with the mod. */
+
+/* The number at the top left of a cell, the one corner that the game (the food mark and the story mark at the top
+   right, the count and the uses at the bottom) and Her Dishes leave free. It takes no click and no drag. */
+.PFX-badge {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  z-index: var(--PFX-badge-z);
+  padding: 0 2px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 11px;
+  letter-spacing: -0.3px;
+  font-variant-numeric: tabular-nums;
+  color: var(--PFX-badge-fg);
+  background: var(--PFX-badge-bg);
+  text-shadow: var(--PFX-badge-shadow);
+  pointer-events: none;
+}
+
+/* A layer over a grid, above a layer of the game (the frost of a freezer: z-index 3, 11 on a selected item). Each
+   badge sits at the place of its cell. */
+.PFX-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.PFX-layer > .PFX-badge {
+  margin: 1px 0 0 1px;
+}
+
+/* A cell with no number: dimmed. */
+.item.PFX-dim {
+  opacity: 0.35;
+}

@@ -1,0 +1,9 @@
+# Library copy of shared/tooltip-lines. Do not edit it: edit shared/tooltip-lines/, then run tools/shared-sync.ps1 -Mod BetterTrade -Lib tooltip-lines.
+name=tooltip-lines
+version=1.1.1
+sha256 web/keepInside.ts 7925d760571687283c10cc3e075b5c27fd2e838ac4ac0b344e283857f4e9f140
+sha256 web/pages.ts 278b9e21d368178ded0997387649909eb42619a2d4846ceee6cf67b6ea1c8ef1
+sha256 web/register.ts 4eb8579fc2aac627b14709d4ae72a68757c8a448aa872b73cd8ba543ef5e31a1
+sha256 web/shapes.ts b014d04de8cdd61ba52e177235687ed63cff1f0b3dd9b8af93a92068bc49d0e1
+sha256 web/tooltipLines.css 5f54b50675202479ced756c001c45fd55896184e7d569cd3093d0b2a0193d259
+sha256 web/tooltipLines.ts 5eb54e687b8f5d22d3ac5ab54483e89c21d180008be939958dd25edb3b815ad9
