@@ -1,4 +1,4 @@
-// Library copy of shared/mod-tags 1.0.0. Do not edit: see src/Shared/mod-tags/VERSION.
+// Library copy of shared/mod-tags 1.1.0. Do not edit: see src/Shared/mod-tags/VERSION.
 // The icon registry of the mod tags in the storage window. The page calls tagIconSvg of its setup state with the
 // IconKey of each tag. Each mod gives the icon of its own key here. The game function is wrapped once for all mods:
 // the library copies of two mods are two closures, so the registry is a property on the shared function object.

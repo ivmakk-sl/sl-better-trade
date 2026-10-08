@@ -8,7 +8,7 @@ using HarmonyLib;
 
 namespace BetterTrade
 {
-    [BepInPlugin(PluginGuid, "Better Trade", "1.0.0")]
+    [BepInPlugin(PluginGuid, "Better Trade", "1.0.1")]
     [BepInProcess("SurvivalLog.exe")]
     public sealed class Plugin : BasePlugin
     {
@@ -36,6 +36,8 @@ namespace BetterTrade
             DeliveryRequestRewards = Config.Bind(
                 "Features", "DeliveryRequestRewards", true,
                 "The delivery request rewards in the delivery request list of Deliver Request. Off shows no reward, so the rewards are not known in advance. Needs a game restart.");
+            SlShared.ModTags.ModTagIcon.Setup(TradingTagLogic.IconKey, typeof(Plugin).Assembly, "BetterTrade.trade-tag.alpha",
+                text => Log.LogWarning("Better Trade: " + text), text => { if (Verbose.Value) Log.LogDebug(text); });
             Harmony = new Harmony(PluginGuid);
             var patches = new List<Type>
             {
@@ -52,7 +54,8 @@ namespace BetterTrade
                 patches.Add(typeof(TagMatchOnTryGetPutRank));
                 patches.Add(typeof(TradeTabs));
                 patches.Add(typeof(PageTickOnStorageShow));
-                patches.Add(typeof(HeadBarIcon));
+                patches.Add(typeof(SlShared.ModTags.ModTagIconLoad));
+                patches.Add(typeof(SlShared.ModTags.ModTagIconPreload));
             }
             // Each patch target is attached on its own, so a target missing after a game update turns
             // off only its own feature.

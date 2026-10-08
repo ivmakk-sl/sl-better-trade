@@ -1,4 +1,4 @@
-// Library copy of shared/mod-tags 1.0.0. Do not edit: see src/Shared/mod-tags/VERSION.
+// Library copy of shared/mod-tags 1.1.0. Do not edit: see src/Shared/mod-tags/VERSION.
 using System.Collections.Generic;
 
 namespace SlShared.ModTags
@@ -49,6 +49,19 @@ namespace SlShared.ModTags
             foreach (var r in rows)
                 if (r.Id == id && !IsModKey(r.NameKey)) return false;
             return true;
+        }
+
+        // The asset path of the head bar icon of a tag key: the path that the game builds in
+        // FurnitureHeadBar.LoadTagRowIcon and adds to the asset preload in FurnitureHeadBar.PreloadTagRowIcons.
+        public static string IconAssetPath(string iconKey) => "Assets/RuntimeAssets/Texture/UI/FurnitureTag/" + iconKey;
+
+        // The side of a square icon from its alpha data (one byte for each pixel).
+        public static int AlphaSide(int byteCount)
+        {
+            var side = (int)System.Math.Sqrt(byteCount);
+            if (side < 1 || side * side != byteCount)
+                throw new System.InvalidOperationException($"the icon has {byteCount} bytes, not a square");
+            return side;
         }
 
         private static bool IsModKey(string key) =>
