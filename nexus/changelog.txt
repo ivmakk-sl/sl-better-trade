@@ -1,0 +1,2 @@
+v1.0.1 - 2026-10-08
+Fixed: No error about the Trading tag icon in the game log after a second save load in one game run.
