@@ -1,6 +1,6 @@
 # Library copy of shared/mod-tags. Do not edit it: edit shared/mod-tags/, then run tools/shared-sync.ps1 -Mod BetterTrade -Lib mod-tags.
 name=mod-tags
 version=1.1.0
-sha256 cs-game/ModTagIcon.cs 3f09120e3425052f326fa7f8e2b25e5dd8ad462a93ca16373748de241ea5e29b
+sha256 cs-game/ModTagIcon.cs 9093105ba48e4094d46d0c17c552cdca4689bbb2a8ae39c4588cde863adfc31d
 sha256 cs/ModTagRule.cs 0aa7c767a47e1450714e98da64da8712458b89dca383f9698879dd8d9ceda047
 sha256 web/registerTagIcon.ts 0774b15e6b696ef294a9c3e60d03451db69c76eb5ee4df75c5d4e5db7ee87d4d

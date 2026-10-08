@@ -41,6 +41,8 @@ namespace SlShared.ModTags
 
         internal static void Debug(string text) => debug?.Invoke(text);
 
+        internal static void Warn(string text) => warn?.Invoke(text);
+
         // The sprite, built once and again when Unity destroyed it. Null when it cannot be built.
         internal static Sprite Get()
         {
@@ -94,15 +96,27 @@ namespace SlShared.ModTags
     // adds its row at the first load of a game run, after that preload, and the row stays in the table. So each later
     // load in the same game run preloaded the path of the mod's key, which has no asset, and the game logged a warning
     // and an error. The Postfix takes that path out of the preload map. The head bar gets its sprite from
-    // ModTagIconLoad in any case.
+    // ModTagIconLoad in any case. A failure warns once and leaves the map of the game as it is, so the save load goes
+    // on with the old warning and error at most.
     [HarmonyPatch(typeof(FurnitureHeadBar), nameof(FurnitureHeadBar.PreloadTagRowIcons))]
     internal static class ModTagIconPreload
     {
+        private static bool warned;
+
         private static void Postfix(Il2CppSystem.Collections.Generic.Dictionary<string, GameCore.HotUpdate.Battle.PreLoaderData> map)
         {
-            if (map == null || ModTagIcon.IconKey == null) return;
-            var path = ModTagRule.IconAssetPath(ModTagIcon.IconKey);
-            if (map.Remove(path)) ModTagIcon.Debug("tag icon preload removed: " + path);
+            try
+            {
+                if (map == null || ModTagIcon.IconKey == null) return;
+                var path = ModTagRule.IconAssetPath(ModTagIcon.IconKey);
+                if (map.Remove(path)) ModTagIcon.Debug("tag icon preload removed: " + path);
+            }
+            catch (Exception e)
+            {
+                if (warned) return;
+                warned = true;
+                ModTagIcon.Warn($"the icon of the tag '{ModTagIcon.IconKey}' could not be taken out of the asset preload, a later save load can log an error for it: {e.Message}");
+            }
         }
     }
 }
