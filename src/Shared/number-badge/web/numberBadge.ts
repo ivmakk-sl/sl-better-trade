@@ -1,4 +1,4 @@
-// Library copy of shared/number-badge 1.0.0. Do not edit: see src/Shared/number-badge/VERSION.
+// Library copy of shared/number-badge 1.0.1. Do not edit: see src/Shared/number-badge/VERSION.
 // The number badge of an item cell: a small number at the top left of the cell, with the tone that the mod gives,
 // and the dim of a cell with no number. Each class name comes from the prefix of the mod: <prefix>-badge,
 // <prefix>-<tone>, <prefix>-dim on the cell, and <prefix>-layer for a layer that the mod makes.

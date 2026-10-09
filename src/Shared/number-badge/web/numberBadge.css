@@ -1,4 +1,4 @@
-/* Library copy of shared/number-badge 1.0.0. Do not edit: see src/Shared/number-badge/VERSION. */
+/* Library copy of shared/number-badge 1.0.1. Do not edit: see src/Shared/number-badge/VERSION. */
 /* The number badge of an item cell. PFX is the prefix of the mod; numberBadgeCss(prefix) replaces it. The mod sets
    these variables in its tokens.css:
      --PFX-badge-fg      the color of a number with no tone
@@ -40,7 +40,11 @@
   margin: 1px 0 0 1px;
 }
 
-/* A cell with no number: dimmed. */
-.item.PFX-dim {
-  opacity: 0.35;
+/* A cell with no number: dimmed. A filter, not an opacity: the item keeps its own opaque background, so the frames of
+   the empty grid cells do not show through an item of more than one cell. The :hover selector outweighs the hover
+   filters of the game (.item:hover, and .item.q-fail:hover of the same weight, which comes before this rule), so a
+   dimmed item stays dimmed under the pointer. */
+.item.PFX-dim,
+.item.PFX-dim:hover {
+  filter: brightness(0.45) saturate(0.5);
 }
