@@ -44,8 +44,14 @@ Nexus page: https://www.nexusmods.com/survivallog/mods/26
 
 ## Compatibility
 
+Works with:
+
 - [Project Cook](https://www.nexusmods.com/survivallog/mods/13) 1.3.0 or later: the cooking tag and the Trading tag work together on one storage, each with its own icon.
 - [Item Totals](https://www.nexusmods.com/survivallog/mods/24): its `Total: N` line shows under the lines of Better Trade in the tooltip.
+
+Not compatible:
+
+- [Expanded Storage](https://www.nexusmods.com/survivallog/mods/22): it replaces the trade window with its own version, so Better Trade shows none of its numbers there.
 
 ## Requirements
 
