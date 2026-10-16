@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Fixed
 
 - A dimmed cell of the storage grid or the drone in the trade window no longer shows the grid lines through it when its item takes more than one cell (without Compact Inventory).
+- The Store Materials button of the backpack no longer makes the mod write a warning about a tag rule to the game's log.
 
 ## [1.0.1] - 2026-10-08
 

@@ -37,6 +37,7 @@ The game already counts these numbers to decide a deal, but it shows only icons 
 - Each storage of your home with the Trading tag shows as a tab of the trade window, after the game's tabs, in each mode. Move items between it and the drone as with a tab of the game. A fridge, a tool cabinet, or the docked drone hub with the tag keeps its one tab.
 - The tag does not change what the robot puts in: with other tags, the storage works as with those tags alone. With only the Trading tag, the robot puts nothing in it.
 - With only the Trading tag and the robot's "Allow Take" on, the robot takes the items out, as from a storage with no tag. Turn "Allow Take" off on a storage with only the Trading tag.
+- The backpack's Store Chilled Food button skips a fridge with only the Trading tag, as the game skips each fridge that has a tag but not Chilled. Give such a fridge the Chilled tag too.
 
 The mod does not change a trade: the values, the deal line, the deal, and the items that the drone takes stay the same as without the mod. The save keeps only the Trading tag of each storage (see [Uninstall](#uninstall)).
 
