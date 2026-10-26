@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- `DeliveryRequestList` and `DeliveryRequestRewards` take effect while you play, with no game restart: at once in an in-game config manager, or after an edit of the config file at the next save load or when you open Settings.
+
 ### Fixed
 
 - A dimmed cell of the storage grid or the drone in the trade window no longer shows the grid lines through it when its item takes more than one cell (without Compact Inventory).

@@ -67,7 +67,7 @@ The game then drops the Trading tag from each storage, and keeps the items and t
 
 ## Configuration
 
-To change mod settings, edit `BepInEx\config\com.ivmakk.survivallog.bettertrade.cfg` while the game is closed (see [CONFIG.md](CONFIG.md) for every setting). Changes apply at the next game start.
+To change mod settings, edit `BepInEx\config\com.ivmakk.survivallog.bettertrade.cfg` (see [CONFIG.md](CONFIG.md) for every setting). The delivery request settings apply while you play: at once in an in-game config manager, or after an edit of the file at the next save load or when you open Settings. `TradeStorages` applies at the next game start.
 
 ## Troubleshooting
 
