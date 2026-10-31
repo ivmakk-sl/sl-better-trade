@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-10-31
+
 ### Changed
 
 - `DeliveryRequestList` and `DeliveryRequestRewards` take effect while you play, with no game restart: at once in an in-game config manager, or after an edit of the config file at the next save load or when you open Settings.
