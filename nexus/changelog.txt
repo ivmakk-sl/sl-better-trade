@@ -1,2 +1,7 @@
+v1.0.2 - 2026-10-31
+Changed: The delivery request list settings (DeliveryRequestList and DeliveryRequestRewards) apply while you play: at once in an in-game config manager, or after a config file edit at the next save load or when you open Settings.
+Fixed: In the trade window, a dimmed item that takes more than one cell covers the grid lines under it (without Compact Inventory).
+Fixed: The game log no longer shows the false warning "a tag rule of type IReadOnlyList`1 is not a list". The Trading tag worked as before.
+
 v1.0.1 - 2026-10-08
 Fixed: No error about the Trading tag icon in the game log after a second save load in one game run.

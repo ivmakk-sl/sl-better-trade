@@ -8,7 +8,7 @@ using HarmonyLib;
 
 namespace BetterTrade
 {
-    [BepInPlugin(PluginGuid, "Better Trade", "1.0.1")]
+    [BepInPlugin(PluginGuid, "Better Trade", "1.0.2")]
     [BepInProcess("SurvivalLog.exe")]
     public sealed class Plugin : BasePlugin
     {
@@ -32,11 +32,22 @@ namespace BetterTrade
                 "The Trading tag, and the storages with the Trading tag as tabs of the trade window. Off works like an uninstall of this part: the game drops the Trading tag from each storage on the next save, a storage with only the Trading tag keeps an empty rule, and turning it on again does not bring the tag back. Needs a game restart.");
             DeliveryRequestList = Config.Bind(
                 "Features", "DeliveryRequestList", true,
-                "The request demand bars in the delivery request list of Deliver Request, with the item icons, the item tooltip on a hover, and the item window on a click of an item bar. Off shows the game's request demands; the numbers of the cells stay. Needs a game restart.");
+                "The request demand bars in the delivery request list of Deliver Request, with the item icons, the item tooltip on a hover, and the item window on a click of an item bar. Off shows the game's request demands; the numbers of the cells stay.");
             DeliveryRequestRewards = Config.Bind(
                 "Features", "DeliveryRequestRewards", true,
-                "The delivery request rewards in the delivery request list of Deliver Request. Off shows no reward, so the rewards are not known in advance. Needs a game restart.");
+                "The delivery request rewards in the delivery request list of Deliver Request. Off shows no reward, so the rewards are not known in advance.");
             SlShared.ModTags.ModTagIcon.Setup(TradingTagLogic.IconKey, typeof(Plugin).Assembly, "BetterTrade.trade-tag.alpha",
+                text => Log.LogWarning("Better Trade: " + text), text => { if (Verbose.Value) Log.LogDebug(text); });
+            // DeliveryRequestList and DeliveryRequestRewards take effect while the game runs: the page data reads them at
+            // each build, and a change builds it again. A hand edit of the file is read at the next save load or settings
+            // window open.
+            Config.SettingChanged += (_, e) =>
+            {
+                var entry = e.ChangedSetting;
+                if (Verbose.Value) Log.LogDebug($"config: {entry.Definition.Key} = {entry.BoxedValue}");
+                if (entry == DeliveryRequestList || entry == DeliveryRequestRewards) PageTick.Request();
+            };
+            SlShared.ConfigFile.ConfigFileReload.Setup(Config.ConfigFilePath, Config.Reload,
                 text => Log.LogWarning("Better Trade: " + text), text => { if (Verbose.Value) Log.LogDebug(text); });
             Harmony = new Harmony(PluginGuid);
             var patches = new List<Type>
@@ -45,6 +56,8 @@ namespace BetterTrade
                 typeof(PageTick),
                 typeof(PageTickOnCallShowAction),
                 typeof(WebOnHandleMessageEmitted),
+                typeof(SlShared.ConfigFile.ConfigFileReloadOnHudReady),
+                typeof(SlShared.ConfigFile.ConfigFileReloadOnSettings),
             };
             if (TradeStorages.Value)
             {
