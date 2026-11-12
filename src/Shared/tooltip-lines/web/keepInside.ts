@@ -1,4 +1,4 @@
-// Library copy of shared/tooltip-lines 1.1.1. Do not edit: see src/Shared/tooltip-lines/VERSION.
+// Library copy of shared/tooltip-lines 1.2.0. Do not edit: see src/Shared/tooltip-lines/VERSION.
 // Keeps a tooltip inside the window after the blocks of the mods made it taller or wider.
 //
 // A web page places its tooltip for its own size (BackpackUI reserves 200 x 100). With one or more blocks under the

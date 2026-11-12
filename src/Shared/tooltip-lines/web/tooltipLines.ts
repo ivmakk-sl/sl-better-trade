@@ -1,4 +1,4 @@
-// Library copy of shared/tooltip-lines 1.1.1. Do not edit: see src/Shared/tooltip-lines/VERSION.
+// Library copy of shared/tooltip-lines 1.2.0. Do not edit: see src/Shared/tooltip-lines/VERSION.
 // The one way for a mod to extend a tooltip of an item in a web page of the game.
 //
 // A mod names the web page, gives its block an id, a rank, and a class prefix, and gives a part that returns the

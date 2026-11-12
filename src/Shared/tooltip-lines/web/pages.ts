@@ -1,4 +1,4 @@
-// Library copy of shared/tooltip-lines 1.1.1. Do not edit: see src/Shared/tooltip-lines/VERSION.
+// Library copy of shared/tooltip-lines 1.2.0. Do not edit: see src/Shared/tooltip-lines/VERSION.
 // The table of the web pages of the game that have an item tooltip: where each page keeps its tooltip parts, what
 // they are called, which node the tooltip is, and how to read the ids of the item under the pointer.
 //
@@ -52,8 +52,8 @@ const shopIds: IdReader = (it) => {
 };
 
 // A page of the reactive shape: the tooltip parts live in the setup closure of its Vue app.
-function reactive(page: string, pageId: string, itemArg: number, ids: IdReader): PageEntry {
-  return { page, pageId, shape: 'reactive', fill: 'onItemEnter', move: 'onItemMove', itemArg, tip: 'div.tooltip', ids };
+function reactive(page: string, pageId: string, itemArg: number, ids: IdReader, extraFills?: string[]): PageEntry {
+  return { page, pageId, shape: 'reactive', fill: 'onItemEnter', extraFills, move: 'onItemMove', itemArg, tip: 'div.tooltip', ids };
 }
 
 // A page of the window shape: the tooltip parts live on the page window, under the names that page gives them.
@@ -66,7 +66,8 @@ function windowPage(page: string, pageId: string, fill: string, move: string, ti
 // differs for the storage window, the trade window, and the shop window.
 export const PAGES: PageEntry[] = [
   reactive('BackpackUI', 'Backpack', 2, configField('cfgId')),
-  reactive('TradeUI', 'Trade', 1, tradeIds),
+  // From game 1.1.21271 an offered row calls onShelfEnter, which places the tooltip next to the row.
+  reactive('TradeUI', 'Trade', 1, tradeIds, ['onShelfEnter']),
   reactive('ShopUI', 'Shop', 1, shopIds),
   windowPage('Cooking', 'Cooking', 'showItemTip', 'moveTooltip', '#recipeTooltip'),
   windowPage('MaterialRack', 'MaterialRack', 'showItemTip', 'moveTip', '#itemTooltip'),

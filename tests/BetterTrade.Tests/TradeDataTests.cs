@@ -14,7 +14,7 @@ namespace BetterTrade.Tests
         private static TradeMath.GiveLine Line(int category, int tradeValue, int count = 1, int useTimes = 0, int maxUseTimes = 0, int cfgUses = 1, float sellRate = 0f) =>
             new TradeMath.GiveLine { Category = category, TradeValue = tradeValue, Count = count, UseTimes = useTimes, MaxUseTimes = maxUseTimes, CfgUses = cfgUses, CfgSellRate = sellRate };
 
-        private static TradeMath.Trader Camp() => new TradeMath.Trader { HalfValueCategory = Food, HalfRate = 0.5f, IsTradeRunPoint = true, IsCampPoint = true };
+        private static TradeMath.Trader Camp() => new TradeMath.Trader { HalfValueCategory = Food, HalfRate = 0.5f, IsTradeRunPoint = true };
 
         private static TradeMath.Trader WantsMedicine(float appraisal = 0f) => new TradeMath.Trader { DemandCategory = Medicine, Boost = 0.6f, BoostMax = 0.6f, AppraisalBoost = appraisal };
 
