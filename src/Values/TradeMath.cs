@@ -71,7 +71,8 @@ namespace BetterTrade
             bool aid = trader.AidDemandCategory > 0 && line.Category == trader.AidDemandCategory;
             bool half = !aid && trader.HalfValueCategory > 0 && line.Category == trader.HalfValueCategory;
             float halfRate = half ? trader.HalfRate : 1f;
-            float sellRate = trader.IsTradeRunPoint && line.CfgSellRate > 0f && line.CfgSellRate < 1f ? line.CfgSellRate : 1f;
+            // Reducer_Web_TradeUI.ResolveSellRate: only for an item with a trade value.
+            float sellRate = trader.IsTradeRunPoint && line.TradeValue > 0 && line.CfgSellRate > 0f && line.CfgSellRate < 1f ? line.CfgSellRate : 1f;
             // The game's ValueScale of the line; 0 or less counts as 1.
             float scale = sellRate * halfRate;
             if (scale <= 0f) scale = 1f;

@@ -77,7 +77,8 @@ function shelfLine(data: PageData, it: ShelfItem, info: Info | undefined): strin
   if (unit === undefined) return '';
   const uses = info && info.uses > 1 ? info.uses : 1;
   let text = word(data.words, 'tradeValue') + ' ' + unit;
-  if (uses === 1 && unit === it.tv) return text;
+  // An item with no trade value of its own has a value only at a camp in Home Mode: no base to break down.
+  if (!(it.tv > 0) || (uses === 1 && unit === it.tv)) return text;
   text += ' = ' + it.tv;
   if (uses > 1) text += ' x ' + uses + ' ' + word(data.words, 'uses').toLowerCase();
   const base = it.tv * uses;

@@ -129,6 +129,13 @@ namespace BetterTrade.Tests
             Assert.Equal(100f, TradeMath.GiveValue(Line(Material, 100, sellRate: 0f), Camp()).Value, 3);
         }
 
+        // Reducer_Web_TradeUI.ResolveSellRate gives 1 to an item with no trade value, so such an item is no low line.
+        [Fact]
+        public void An_item_with_no_trade_value_is_not_low()
+        {
+            Assert.Equal(TradeMath.Factor.Full, TradeMath.GiveValue(Line(Material, 0, sellRate: 0.6f), Camp()).Class);
+        }
+
         [Fact]
         public void A_half_used_stack_counts_its_uses_left()
         {
