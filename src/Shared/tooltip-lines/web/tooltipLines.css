@@ -1,4 +1,4 @@
-/* Library copy of shared/tooltip-lines 1.1.1. Do not edit: see src/Shared/tooltip-lines/VERSION. */
+/* Library copy of shared/tooltip-lines 1.2.0. Do not edit: see src/Shared/tooltip-lines/VERSION. */
 /* One tooltip block of a mod: the lines that the mod adds below the lines of the game, drawn as one group. PFX is the
    prefix of the mod; tooltipLinesCss(prefix) replaces it. The library holds the layout only. The mod sets these
    variables in its tokens.css:

@@ -66,6 +66,20 @@ if (gameFound) {
     assert.match(await hover(w, w.document.querySelector('#tradeBagGrid > .item')), /Trade value 30$/);
   });
 
+  // At a camp in Home Mode the game gives an item with no trade value of its own a value of the camp (Rotten Meat
+  // Slab: 0 in the config, 60 at the camp), so the shelf value has no base to break down.
+  test('an offered item with no trade value of its own shows only its value at the camp', async (t) => {
+    const w = await loadTradeWindow(t);
+    await openTrade(w, [item(101, 0, 0)]);
+    await postGame(w, 'WebUI_Trade_ShelfMsg', { shelfItemsJson: JSON.stringify([shelfItem(5003, { tv: 0 })]) });
+    setData(makeRootWindow(t, w), data({
+      shelf: { 5003: 60 },
+      info: { 5003: { sub: '', uses: 1, stats: [0, 0, 0, 0, 0], read: '', crop: '' } }
+    }));
+
+    assert.match(await hover(w, w.document.querySelector('.shelf-row')), /Trade value 60$/);
+  });
+
   test('a book shows its effect on read', async (t) => {
     const w = await loadTradeWindow(t);
     await openTrade(w, [item(101, 0, 0)]);

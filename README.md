@@ -56,7 +56,7 @@ Not compatible:
 
 ## Requirements
 
-- Survival Log 1.1.18293 or later.
+- Survival Log 1.1.21271 or later.
 - The [BepInEx Pack for Survival Log](https://www.nexusmods.com/survivallog/mods/12), the BepInEx 6 (IL2CPP) build for the game.
 
 ## Install
@@ -77,7 +77,7 @@ To change mod settings, edit `BepInEx\config\com.ivmakk.survivallog.bettertrade.
 
 ## Troubleshooting
 
-Tested on Survival Log 1.1.18293 (Steam build `25680222`) with BepInEx `6.0.0-be.788`.
+Tested on Survival Log 1.1.21271 (Steam build `26615062`) with BepInEx `6.0.0-be.788`.
 
 If a game update removes a part of the trade window that the mod needs, that part shows as without the mod, and the other parts keep working. If the request demand bars look wrong after a game update, set `DeliveryRequestList` to `false` to get the game's list back.
 

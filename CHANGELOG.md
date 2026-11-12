@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-11-12
+
+### Removed
+
+- Support for game versions before 1.1.21271: the mod reads the trade values of Home Mode from the game.
+
+### Fixed
+
+- The tooltip of an offered row in the trade window shows the lines of the mod again (the subcategory, the uses, the stats of one use, and the trade value). Game 1.1.21271 places that tooltip next to the row, and the lines no longer showed there.
+- At a camp in Home Mode, the trade values and the offer bar count each item at the value of the game for that camp, also an item with no trade value of its own.
+
 ## [1.0.2] - 2026-10-31
 
 ### Changed

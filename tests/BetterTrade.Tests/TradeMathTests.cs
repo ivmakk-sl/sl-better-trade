@@ -15,7 +15,6 @@ namespace BetterTrade.Tests
             HalfValueCategory = Food,
             HalfRate = 0.5f,
             IsTradeRunPoint = true,
-            IsCampPoint = true,
         };
 
         private static TradeMath.GiveLine Line(int category, int tradeValue, int count = 1, int useTimes = 0, int maxUseTimes = 0, int cfgUses = 1, float sellRate = 0f) =>
@@ -130,6 +129,13 @@ namespace BetterTrade.Tests
             Assert.Equal(100f, TradeMath.GiveValue(Line(Material, 100, sellRate: 0f), Camp()).Value, 3);
         }
 
+        // Reducer_Web_TradeUI.ResolveSellRate gives 1 to an item with no trade value, so such an item is no low line.
+        [Fact]
+        public void An_item_with_no_trade_value_is_not_low()
+        {
+            Assert.Equal(TradeMath.Factor.Full, TradeMath.GiveValue(Line(Material, 0, sellRate: 0.6f), Camp()).Class);
+        }
+
         [Fact]
         public void A_half_used_stack_counts_its_uses_left()
         {
@@ -154,25 +160,18 @@ namespace BetterTrade.Tests
         }
 
         [Fact]
-        public void An_offered_unit_is_worth_its_trade_value_times_its_config_uses()
+        public void An_offered_unit_is_worth_the_take_value_of_the_game_times_its_config_uses()
         {
-            Assert.Equal(91, TradeMath.TakeUnitValue(13, 7, isMedicine: false, isCampPoint: false, medicineRate: 2f));
-            Assert.Equal(10, TradeMath.TakeUnitValue(10, 0, isMedicine: false, isCampPoint: false, medicineRate: 2f));
+            Assert.Equal(91, TradeMath.TakeUnitValue(13, 7));
+            Assert.Equal(10, TradeMath.TakeUnitValue(10, 0));
         }
 
+        // The take value comes from Reducer_Web_TradeUI.ResolveTakeTradeValue, which gives the medicine rate at a
+        // camp point and the value of a camp in Home Mode; the mod adds only the uses.
         [Fact]
-        public void Medicine_at_a_camp_point_is_worth_double()
+        public void A_take_value_of_the_game_is_not_raised_again()
         {
-            Assert.Equal(112, TradeMath.TakeUnitValue(56, 1, isMedicine: true, isCampPoint: true, medicineRate: 2f));
-            Assert.Equal(56, TradeMath.TakeUnitValue(56, 1, isMedicine: true, isCampPoint: false, medicineRate: 2f));
-            Assert.Equal(56, TradeMath.TakeUnitValue(56, 1, isMedicine: true, isCampPoint: true, medicineRate: 1f));
-        }
-
-        [Fact]
-        public void The_medicine_rate_rounds_a_half_to_even()
-        {
-            Assert.Equal(38, TradeMath.TakeUnitValue(25, 1, isMedicine: true, isCampPoint: true, medicineRate: 1.5f));
-            Assert.Equal(40, TradeMath.TakeUnitValue(27, 1, isMedicine: true, isCampPoint: true, medicineRate: 1.5f));
+            Assert.Equal(112, TradeMath.TakeUnitValue(112, 1));
         }
 
         private static readonly TradeMath.Settings NoTalent = TradeMath.Settings.Resolve(selfStockRate: 0.5f, dealLineDiscount: 0f, dealLineMaxDiscount: 60f, barScale: 120f);

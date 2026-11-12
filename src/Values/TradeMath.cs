@@ -22,8 +22,6 @@ namespace BetterTrade
             public float HalfRate = 1f;
             // NpcId < 1 and ShelfShopId > 0, in a trade (no mode flag).
             public bool IsTradeRunPoint;
-            // A Trade Run point with CampState != 0.
-            public bool IsCampPoint;
         }
 
         // One stack of the character that is in the trade.
@@ -73,7 +71,8 @@ namespace BetterTrade
             bool aid = trader.AidDemandCategory > 0 && line.Category == trader.AidDemandCategory;
             bool half = !aid && trader.HalfValueCategory > 0 && line.Category == trader.HalfValueCategory;
             float halfRate = half ? trader.HalfRate : 1f;
-            float sellRate = trader.IsTradeRunPoint && line.CfgSellRate > 0f && line.CfgSellRate < 1f ? line.CfgSellRate : 1f;
+            // Reducer_Web_TradeUI.ResolveSellRate: only for an item with a trade value.
+            float sellRate = trader.IsTradeRunPoint && line.TradeValue > 0 && line.CfgSellRate > 0f && line.CfgSellRate < 1f ? line.CfgSellRate : 1f;
             // The game's ValueScale of the line; 0 or less counts as 1.
             float scale = sellRate * halfRate;
             if (scale <= 0f) scale = 1f;
@@ -90,17 +89,12 @@ namespace BetterTrade
             };
         }
 
-        // The value of one offered unit, as the goods count it (Reducer_Web_TradeUI.ResolveTakeTradeValue times the
-        // config uses): Medicine at a camp point is worth the medicine rate (EndlessTradeTakeMedicineRate) times more.
-        public static int TakeUnitValue(int tradeValue, int cfgUses, bool isMedicine, bool isCampPoint, float medicineRate)
+        // The value of one offered unit, as the goods count it: the take value of the game
+        // (Reducer_Web_TradeUI.ResolveTakeTradeValue, which holds the medicine rate at a camp point and the value of a
+        // camp in Home Mode) times the config uses.
+        public static int TakeUnitValue(int takeValue, int cfgUses)
         {
-            int value = tradeValue;
-            if (tradeValue > 0 && isMedicine && isCampPoint && medicineRate > 1f)
-            {
-                int raised = (int)Math.Round(tradeValue * medicineRate);
-                value = raised < tradeValue ? tradeValue : raised;
-            }
-            return value * (cfgUses < 1 ? 1 : cfgUses);
+            return takeValue * (cfgUses < 1 ? 1 : cfgUses);
         }
 
         // The settings of Config_GlobalSetting (Params2) that the trade reads, with the game's fallbacks for a

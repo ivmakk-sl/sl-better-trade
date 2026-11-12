@@ -1,3 +1,8 @@
+v1.0.3 - 2026-11-12
+Removed: Support for game versions before 1.1.21271.
+Fixed: The tooltip of an offered row in the trade window shows the lines of the mod again (the item facts and the trade value). Game 1.1.21271 moved that tooltip next to the row.
+Fixed: At a camp in Home Mode, the trade values and the offer bar use the camp's own values, also for an item with no trade value of its own.
+
 v1.0.2 - 2026-10-31
 Changed: The delivery request list settings (DeliveryRequestList and DeliveryRequestRewards) apply while you play: at once in an in-game config manager, or after a config file edit at the next save load or when you open Settings.
 Fixed: In the trade window, a dimmed item that takes more than one cell covers the grid lines under it (without Compact Inventory).

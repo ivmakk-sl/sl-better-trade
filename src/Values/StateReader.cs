@@ -56,6 +56,27 @@ namespace BetterTrade
             if (log != null && log.Count > 0) Plugin.Log.LogDebug($"Better Trade expiry: {string.Join(" ", log)}");
         }
 
+        // The trade value of one given unit, as the game counts it (Reducer_Web_TradeUI.EvaluateState): the config value,
+        // or at a camp in Home Mode the value of the camp tables, also for an item with no config value.
+        private static int GiveTradeValue(State_Web_TradeUI s, Config_Item cfg)
+        {
+            int value = Reducer_Web_TradeUI.ResolveCasualGiveTradeValue(s, cfg);
+            if (value != cfg.TradeValue && Plugin.Verbose.Value)
+                Plugin.Log.LogDebug($"Better Trade give value: item {cfg.ID} config {cfg.TradeValue} game {value}");
+            return value;
+        }
+
+        // The take value of one offered unit, as the game counts it (Reducer_Web_TradeUI.ResolveTakeTradeValue): the
+        // config value, Medicine at a camp point times the medicine rate, or at a camp in Home Mode the value of the
+        // camp tables.
+        private static int TakeTradeValue(State_Web_TradeUI s, Config_Item cfg)
+        {
+            int value = Reducer_Web_TradeUI.ResolveTakeTradeValue(s, cfg);
+            if (value != cfg.TradeValue && Plugin.Verbose.Value)
+                Plugin.Log.LogDebug($"Better Trade take value: item {cfg.ID} config {cfg.TradeValue} game {value}");
+            return value;
+        }
+
         // The items of the open tab of the storage grid, then the items in the drone, each once.
         private static List<Data_Item> OwnItems(State_Web_TradeUI s)
         {
@@ -96,7 +117,6 @@ namespace BetterTrade
                 AidDemandCategory = s.AidDemandCategory,
                 HalfRate = settings.HalfRate,
                 IsTradeRunPoint = tradeRunPoint,
-                IsCampPoint = tradeRunPoint && s.CampState != 0,
             };
 
             // The give lines: the items in the drone.
@@ -110,7 +130,7 @@ namespace BetterTrade
                 var line = new TradeMath.GiveLine
                 {
                     Category = cfg.Category,
-                    TradeValue = cfg.TradeValue,
+                    TradeValue = GiveTradeValue(s, cfg),
                     Count = item.ItemCount,
                     UseTimes = item.UseTimes,
                     MaxUseTimes = item.MaxUseTimes,
@@ -124,7 +144,6 @@ namespace BetterTrade
             }
 
             // The take lines (the picked goods) and the value of one unit of each offered row.
-            float medicineRate = GameKey.EndlessTradeTakeMedicineRate;
             var takeLines = new List<int>();
             var picks = Reducer_Web_TradeUI.ParsePicks(s.PicksJson);
             bool picked = false;
@@ -137,7 +156,7 @@ namespace BetterTrade
                     if (count < 1) continue;
                     var cfg = config.Get_Config_Item(e.Current.Key);
                     if (cfg == null) continue;
-                    takeLines.Add(count * TradeMath.TakeUnitValue(cfg.TradeValue, cfg.UseTimes, cfg.Category == 2, trader.IsCampPoint, medicineRate));
+                    takeLines.Add(count * TradeMath.TakeUnitValue(TakeTradeValue(s, cfg), cfg.UseTimes));
                     picked = true;
                 }
             }
@@ -150,7 +169,7 @@ namespace BetterTrade
                 {
                     var cfg = config.Get_Config_Item(e.Current.Key);
                     if (cfg == null) continue;
-                    data.Shelf.Add(new KeyValuePair<int, int>(e.Current.Key, TradeMath.TakeUnitValue(cfg.TradeValue, cfg.UseTimes, cfg.Category == 2, trader.IsCampPoint, medicineRate)));
+                    data.Shelf.Add(new KeyValuePair<int, int>(e.Current.Key, TradeMath.TakeUnitValue(TakeTradeValue(s, cfg), cfg.UseTimes)));
                     shelfIds.Add(e.Current.Key);
                 }
             }

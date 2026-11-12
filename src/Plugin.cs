@@ -8,7 +8,7 @@ using HarmonyLib;
 
 namespace BetterTrade
 {
-    [BepInPlugin(PluginGuid, "Better Trade", "1.0.2")]
+    [BepInPlugin(PluginGuid, "Better Trade", "1.0.3")]
     [BepInProcess("SurvivalLog.exe")]
     public sealed class Plugin : BasePlugin
     {

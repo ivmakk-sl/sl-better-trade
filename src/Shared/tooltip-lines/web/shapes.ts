@@ -1,4 +1,4 @@
-// Library copy of shared/tooltip-lines 1.1.1. Do not edit: see src/Shared/tooltip-lines/VERSION.
+// Library copy of shared/tooltip-lines 1.2.0. Do not edit: see src/Shared/tooltip-lines/VERSION.
 // The tooltip shapes of the web pages of the game. A mod names the web page and the library picks the shape, so no
 // mod reads a web page to find out how its tooltip is built.
 //
@@ -27,12 +27,15 @@ export type IdReader = (it: Record<string, unknown>, w: Window) => ItemIds;
 // finds its frame; pageId is the name the game itself calls the page, which is what WebUILayer.SendMessageToPage
 // gives C# and is not always the folder name (Backpack, Trade, and Shop). fill is the part that fills the tooltip and
 // move the part that moves it; itemArg is the place of the item in the arguments of the fill part; tip is the selector
-// of the tooltip node; ids reads the ids of the item.
+// of the tooltip node; ids reads the ids of the item. extraFills are more parts that fill the same tooltip with the
+// item at the same place, which a page of an older game version may lack: the library wraps each one that the page
+// has and reports none as missing.
 export interface PageEntry {
   page: string;
   pageId: string;
   shape: ShapeName;
   fill: string;
+  extraFills?: string[];
   move?: string;
   itemArg: number;
   tip: string;
@@ -66,6 +69,7 @@ export function install(w: Window, entry: PageEntry): InstallReport {
   if (!w.document.querySelector(entry.tip)) missing.push(entry.tip);
   if (missing.length) return { page: entry.page, missing };
   wrapFill(w, entry, bag, entry.fill);
+  for (const part of entry.extraFills || []) if (typeof bag[part] === 'function') wrapFill(w, entry, bag, part);
   if (entry.move) wrapMove(w, entry, bag, entry.move);
   return { page: entry.page, missing: [] };
 }

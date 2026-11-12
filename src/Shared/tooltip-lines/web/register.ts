@@ -1,4 +1,4 @@
-// Library copy of shared/tooltip-lines 1.1.1. Do not edit: see src/Shared/tooltip-lines/VERSION.
+// Library copy of shared/tooltip-lines 1.2.0. Do not edit: see src/Shared/tooltip-lines/VERSION.
 // The registry of the tooltip blocks and the draw of one group of blocks into a tooltip of the game.
 //
 // The library copies of two mods are two closures, so the registry cannot live in a module. It lives on the window
